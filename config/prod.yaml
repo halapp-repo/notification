@@ -1,0 +1,9 @@
+AccountID: "751021557844"
+App: "HalappNotification"
+Environment: PRODUCTION
+Region: eu-central-1
+# SNS
+SNSOrderCreatedTopic: "OrderCreatedTopic"
+# S3
+S3OrderCreatedEmailTemplate: "XXXX"
+
