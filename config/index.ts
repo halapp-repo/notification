@@ -29,10 +29,23 @@ function getConfig(app: cdk.App): BuildConfig {
     App: ensureString(unparsedEnv, "App"),
     Environment: ensureString(unparsedEnv, "Environment"),
     Region: ensureString(unparsedEnv, "Region"),
-    SNSOrderCreatedTopic: ensureString(unparsedEnv, "SNSOrderCreatedTopic"),
+    ORDER_SNSOrderCreatedTopic: ensureString(
+      unparsedEnv,
+      "ORDER_SNSOrderCreatedTopic"
+    ),
     S3OrderCreatedEmailTemplate: ensureString(
       unparsedEnv,
       "S3OrderCreatedEmailTemplate"
+    ),
+    SESFromEmail: ensureString(unparsedEnv, "SESFromEmail"),
+    SESCCEmail: ensureString(unparsedEnv, "SESCCEmail"),
+    LAMBDAAccountGetOrganizationHandler: ensureString(
+      unparsedEnv,
+      "LAMBDAAccountGetOrganizationHandler"
+    ),
+    LAMBDAListingGetInventoriesHandler: ensureString(
+      unparsedEnv,
+      "LAMBDAListingGetInventoriesHandler"
     ),
   };
   return buildConfig;

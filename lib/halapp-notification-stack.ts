@@ -74,7 +74,7 @@ export class HalappNotificationStack extends cdk.Stack {
             "aws:SourceAccount": this.account,
           },
           ArnLike: {
-            "aws:SourceArn": `arn:aws:sns:*:*:${buildConfig.SNSOrderCreatedTopic}`,
+            "aws:SourceArn": `arn:aws:sns:*:*:${buildConfig.ORDER_SNSOrderCreatedTopic}`,
           },
         },
       })
@@ -82,7 +82,7 @@ export class HalappNotificationStack extends cdk.Stack {
     const importedOrderCreatedTopic = sns.Topic.fromTopicArn(
       this,
       "ImportedUserCreatedTopic",
-      `arn:aws:sns:${buildConfig.Region}:${buildConfig.AccountID}:${buildConfig.SNSOrderCreatedTopic}`
+      `arn:aws:sns:${buildConfig.Region}:${buildConfig.AccountID}:${buildConfig.ORDER_SNSOrderCreatedTopic}`
     );
     if (!importedOrderCreatedTopic) {
       throw new Error("importedOrderCreatedTopic needs to come from Order");
@@ -115,9 +115,16 @@ export class HalappNotificationStack extends cdk.Stack {
           minify: true,
         },
         environment: {
+          NODE_OPTIONS: "--enable-source-maps",
           Region: buildConfig.Region,
           S3BucketName: importedEmailTemplateBucket.bucketName,
           EmailTemplate: buildConfig.S3OrderCreatedEmailTemplate,
+          SESFromEmail: buildConfig.SESFromEmail,
+          SESCCEmail: buildConfig.SESCCEmail,
+          LAMBDAAccountGetOrganizationHandler:
+            buildConfig.LAMBDAAccountGetOrganizationHandler,
+          LAMBDAListingGetInventoriesHandler:
+            buildConfig.LAMBDAListingGetInventoriesHandler,
         },
       }
     );
@@ -128,7 +135,12 @@ export class HalappNotificationStack extends cdk.Stack {
     );
     orderCreatedHandler.addToRolePolicy(
       new iam.PolicyStatement({
-        actions: ["lambda:InvokeFunction"],
+        actions: [
+          "lambda:InvokeFunction",
+          "ses:SendEmail",
+          "ses:SendRawEmail",
+          "ses:SendTemplatedEmail",
+        ],
         resources: ["*"],
         effect: iam.Effect.ALLOW,
       })

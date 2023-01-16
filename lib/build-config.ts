@@ -4,7 +4,13 @@ export interface BuildConfig {
   readonly Environment: string;
   readonly Region: string;
   // SNS
-  readonly SNSOrderCreatedTopic: string;
+  readonly ORDER_SNSOrderCreatedTopic: string;
   // S3
   readonly S3OrderCreatedEmailTemplate: string;
+  // SES
+  readonly SESFromEmail: string;
+  readonly SESCCEmail: string;
+  // LAMBDA
+  readonly LAMBDAAccountGetOrganizationHandler: string;
+  readonly LAMBDAListingGetInventoriesHandler: string;
 }

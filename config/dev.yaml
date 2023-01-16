@@ -3,6 +3,13 @@ App: "HalappNotification"
 Environment: DEVELOPMENT
 Region: eu-central-1
 # SNS
-SNSOrderCreatedTopic: "OrderCreatedTopic"
+ORDER_SNSOrderCreatedTopic: "ORDER_OrderCreatedTopic"
 # S3
-S3OrderCreatedEmailTemplate: "XXXX"
+S3OrderCreatedEmailTemplate: "order-created.ejs"
+# SES
+SESFromEmail: no-reply@halapp.io
+SESCCEmail: furkan.ozdeslik@gmail.com
+# LAMBDA
+LAMBDAAccountGetOrganizationHandler: "AccountGetOrganizationHandler"
+LAMBDAListingGetInventoriesHandler: "ListingGetInventoriesHandler"
+
