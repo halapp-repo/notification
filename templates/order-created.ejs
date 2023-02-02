@@ -385,8 +385,12 @@
                     <td>
                       <h1>Yeni Siparis Var.</h1>
                       <h3>Sirket ismi : <%= organizationName %> </h3>
+                      <h4>
+                        <a href="<%= orderUrl %>">Siparis linki</a>
+                      </h4>
                       <h4>Siparis no : <%= orderId %></h4>
-                      <h4>Siparis tarihi: <%= createdDate %></h4>
+                      <h4>Teslimat tarihi: <%= deliveryTime %></h4>
+                      <h4>Siparis yaratilis tarihi: <%= createdDate %></h4>
                       <ul>
                         <% for(var i=0; i < items.length; i++) { %>
                         <li class="items">
