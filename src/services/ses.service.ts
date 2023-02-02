@@ -63,7 +63,8 @@ export class SESService {
 
     const body = await ejs.render(fileStr, {
       orderId: order.Id,
-      createdDate: trMoment(order.CreatedDate).format("DD.MM.YYYY HH:mm:ss"),
+      orderUrl: `https://halapp.io/orders/${order.Id}`,
+      createdDate: trMoment(order.CreatedDate).format("DD.MM.YYYY HH:mm"),
       organizationName: organization.Name,
       note: order.Note || "",
       address: {
@@ -73,6 +74,7 @@ export class SESService {
         zipcode: order.DeliveryAddress.ZipCode,
         country: order.DeliveryAddress.Country,
       },
+      deliveryTime: trMoment(order.DeliveryTime).format("DD.MM.YYYY HH:mm"),
       items: order.Items.map((i) => ({
         name:
           inventories.find((inv) => inv.ProductId === i.ProductId)?.Name ||

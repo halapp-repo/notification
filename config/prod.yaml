@@ -10,7 +10,7 @@ S3OrderCreatedEmailTemplate: "order-created.ejs"
 SESFromEmail: no-reply@halapp.io
 SESCCEmail: info@halapp.io
 #LAMBDA
-LAMBDAAccountGetOrganizationHandler: "AccountGetOrganizationHandler"
-LAMBDAListingGetInventoriesHandler: "ListingGetInventoriesHandler"
+LAMBDAAccountGetOrganizationHandler: "Account-GetOrganizationHandler"
+LAMBDAListingGetInventoriesHandler: "Listing-GetInventoriesHandler"
 
 
