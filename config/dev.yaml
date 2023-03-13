@@ -3,7 +3,7 @@ App: "HalappNotification"
 Environment: DEVELOPMENT
 Region: eu-central-1
 # SNS
-ORDER_SNSOrderCreatedTopic: "ORDER_OrderCreatedTopic"
+ORDER_SNSOrderTopic: "ORDER_OrderTopic"
 # S3
 S3OrderCreatedEmailTemplate: "order-created.ejs"
 # SES
