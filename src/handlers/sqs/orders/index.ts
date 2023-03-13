@@ -1,7 +1,12 @@
 import "reflect-metadata";
 import { SQSEvent, SNSMessage } from "aws-lambda";
 import { plainToInstance } from "class-transformer";
-import { OrderVM } from "@halapp/common";
+import {
+  OrderCreatedPayload,
+  OrderSQSMessageType,
+  OrderVM,
+  SQSMessage,
+} from "@halapp/common";
 import { diContainer } from "../../../core/di-registry";
 import { SESService } from "../../../services/ses.service";
 import InventoryRepository from "../../../repositories/inventory.repository";
@@ -19,14 +24,22 @@ export async function handler(event: SQSEvent) {
     const rawMessage = JSON.parse(body) as SNSMessage;
     // Add Record to Signup DB
     console.log(rawMessage.Message);
-    const order = plainToInstance(OrderVM, JSON.parse(rawMessage.Message));
-    const organization = await organizationRepository.fetch(
-      order.OrganizationId
-    );
-    await sesService.sendNewOrderCreatedEmail({
-      order,
-      inventories,
-      organization,
-    });
+    console.log(rawMessage.Subject);
+
+    const message = JSON.parse(
+      rawMessage.Message
+    ) as SQSMessage<OrderSQSMessageType>;
+    if (message.Type === OrderSQSMessageType.OrderCreated) {
+      const { Order: orderPayload } = message.Payload as OrderCreatedPayload;
+      const order = plainToInstance(OrderVM, orderPayload);
+      const organization = await organizationRepository.fetch(
+        order.OrganizationId
+      );
+      await sesService.sendNewOrderCreatedEmail({
+        order,
+        inventories,
+        organization,
+      });
+    }
   }
 }

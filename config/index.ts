@@ -29,10 +29,7 @@ function getConfig(app: cdk.App): BuildConfig {
     App: ensureString(unparsedEnv, "App"),
     Environment: ensureString(unparsedEnv, "Environment"),
     Region: ensureString(unparsedEnv, "Region"),
-    ORDER_SNSOrderCreatedTopic: ensureString(
-      unparsedEnv,
-      "ORDER_SNSOrderCreatedTopic"
-    ),
+    ORDER_SNSOrderTopic: ensureString(unparsedEnv, "ORDER_SNSOrderTopic"),
     S3OrderCreatedEmailTemplate: ensureString(
       unparsedEnv,
       "S3OrderCreatedEmailTemplate"

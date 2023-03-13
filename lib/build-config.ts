@@ -4,7 +4,7 @@ export interface BuildConfig {
   readonly Environment: string;
   readonly Region: string;
   // SNS
-  readonly ORDER_SNSOrderCreatedTopic: string;
+  readonly ORDER_SNSOrderTopic: string;
   // S3
   readonly S3OrderCreatedEmailTemplate: string;
   // SES

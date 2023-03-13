@@ -31,82 +31,75 @@ export class HalappNotificationStack extends cdk.Stack {
     // **************
     // CREATE SQS
     // ****************
-    const orderCreatedSQS = this.createOrderCreatedQueue(buildConfig);
+    const orderSQS = this.createOrderQueue(buildConfig);
     // **************
     // CREATE LAMBDA
     // ****************
-    const orderCreatedHandler = this.createOrderCreatedHandler(
+    const orderSQSHandler = this.createOrderSQSHandler(
       buildConfig,
-      orderCreatedSQS,
+      orderSQS,
       importedEmailTemplateBucket
     );
   }
-  createOrderCreatedQueue(buildConfig: BuildConfig): cdk.aws_sqs.Queue {
-    const orderCreatedDLQ = new sqs.Queue(
-      this,
-      "Notification-OrderCreatedDLQ",
-      {
-        queueName: "Notification-OrderCreatedDLQ",
-        retentionPeriod: cdk.Duration.hours(10),
-      }
-    );
-    const orderCreatedQueue = new sqs.Queue(
-      this,
-      "Notification-OrderCreatedQueue",
-      {
-        queueName: "Notification-OrderCreatedQueue",
-        visibilityTimeout: cdk.Duration.minutes(2),
-        retentionPeriod: cdk.Duration.days(1),
-        deadLetterQueue: {
-          queue: orderCreatedDLQ,
-          maxReceiveCount: 4,
-        },
-      }
-    );
-    orderCreatedQueue.addToResourcePolicy(
+  createOrderQueue(buildConfig: BuildConfig): cdk.aws_sqs.Queue {
+    const orderCreatedDLQ = new sqs.Queue(this, "Notification-OrderDLQ", {
+      queueName: "Notification-OrderDLQ",
+      retentionPeriod: cdk.Duration.hours(10),
+    });
+    const orderQueue = new sqs.Queue(this, "Notification-OrderQueue", {
+      queueName: "Notification-OrderQueue",
+      visibilityTimeout: cdk.Duration.minutes(2),
+      receiveMessageWaitTime: cdk.Duration.seconds(5),
+      retentionPeriod: cdk.Duration.days(1),
+      deadLetterQueue: {
+        queue: orderCreatedDLQ,
+        maxReceiveCount: 4,
+      },
+    });
+    orderQueue.addToResourcePolicy(
       new PolicyStatement({
         effect: Effect.ALLOW,
         principals: [new ServicePrincipal("sns.amazonaws.com")],
         actions: ["sqs:SendMessage"],
-        resources: [orderCreatedQueue.queueArn],
+        resources: [orderQueue.queueArn],
         conditions: {
           StringEquals: {
             "aws:SourceAccount": this.account,
           },
           ArnLike: {
-            "aws:SourceArn": `arn:aws:sns:*:*:${buildConfig.ORDER_SNSOrderCreatedTopic}`,
+            "aws:SourceArn": `arn:aws:sns:*:*:${buildConfig.ORDER_SNSOrderTopic}`,
           },
         },
       })
     );
-    const importedOrderCreatedTopic = sns.Topic.fromTopicArn(
+    const importedOrderTopic = sns.Topic.fromTopicArn(
       this,
-      "ImportedUserCreatedTopic",
-      `arn:aws:sns:${buildConfig.Region}:${buildConfig.AccountID}:${buildConfig.ORDER_SNSOrderCreatedTopic}`
+      "NotificationImportedOrderTopic",
+      `arn:aws:sns:${buildConfig.Region}:${buildConfig.AccountID}:${buildConfig.ORDER_SNSOrderTopic}`
     );
-    if (!importedOrderCreatedTopic) {
-      throw new Error("importedOrderCreatedTopic needs to come from Order");
+    if (!importedOrderTopic) {
+      throw new Error(
+        "NotificationImportedOrderTopic needs to come from Order"
+      );
     }
-    importedOrderCreatedTopic.addSubscription(
-      new subs.SqsSubscription(orderCreatedQueue)
-    );
-    return orderCreatedQueue;
+    importedOrderTopic.addSubscription(new subs.SqsSubscription(orderQueue));
+    return orderQueue;
   }
-  createOrderCreatedHandler(
+  createOrderSQSHandler(
     buildConfig: BuildConfig,
-    orderCreatedSQS: cdk.aws_sqs.Queue,
+    orderSQS: cdk.aws_sqs.Queue,
     importedEmailTemplateBucket: cdk.aws_s3.IBucket
   ): cdk.aws_lambda_nodejs.NodejsFunction {
     const orderCreatedHandler = new NodejsFunction(
       this,
-      "Notification-SQSOrderCreatedHandler",
+      "Notification-SQSOrderHandler",
       {
         memorySize: 1024,
         timeout: cdk.Duration.minutes(1),
-        functionName: "Notification-SQSOrderCreatedHandler",
+        functionName: "Notification-SQSOrderHandler",
         runtime: lambda.Runtime.NODEJS_18_X,
         handler: "handler",
-        entry: path.join(__dirname, `/../src/handlers/orders/created/index.ts`),
+        entry: path.join(__dirname, `/../src/handlers/sqs/orders/index.ts`),
         bundling: {
           target: "es2020",
           keepNames: true,
@@ -129,7 +122,7 @@ export class HalappNotificationStack extends cdk.Stack {
       }
     );
     orderCreatedHandler.addEventSource(
-      new SqsEventSource(orderCreatedSQS, {
+      new SqsEventSource(orderSQS, {
         batchSize: 1,
       })
     );
