@@ -74,7 +74,20 @@ export class SESService {
         zipcode: order.DeliveryAddress.ZipCode,
         country: order.DeliveryAddress.Country,
       },
+      paymentType: order.PaymentMethodType,
       deliveryTime: trMoment(order.DeliveryTime).format("DD.MM.YYYY HH:mm"),
+      totalPrice: new Intl.NumberFormat("tr-TR", {
+        style: "currency",
+        currency: "TRY",
+      }).format(
+        order.Items.reduce((acc, curr) => {
+          return acc + curr.Price * curr.Count;
+        }, 0)
+      ),
+      deliveryPrice: new Intl.NumberFormat("tr-TR", {
+        style: "currency",
+        currency: "TRY",
+      }).format(0),
       items: order.Items.map((i) => ({
         name:
           inventories.find((inv) => inv.ProductId === i.ProductId)?.Name ||
@@ -93,7 +106,8 @@ export class SESService {
     });
     const sesCommand = new SendEmailCommand({
       Destination: {
-        ToAddresses: [this.ccAddress],
+        CcAddresses: [this.ccAddress],
+        ToAddresses: [organization.Email],
       },
       Message: {
         Body: {
@@ -102,7 +116,7 @@ export class SESService {
           },
         },
         Subject: {
-          Data: `Yeni Siparis Var (${organization.Name})`,
+          Data: `Sipariş Verildi (${organization.Name})`,
         },
       },
       Source: this.fromAddress,

@@ -2,7 +2,7 @@ import "reflect-metadata";
 import { SQSEvent, SNSMessage } from "aws-lambda";
 import { plainToInstance } from "class-transformer";
 import {
-  OrderCreatedPayload,
+  OrderCreatedMessagePayload,
   OrderSQSMessageType,
   OrderVM,
   SQSMessage,
@@ -30,7 +30,8 @@ export async function handler(event: SQSEvent) {
       rawMessage.Message
     ) as SQSMessage<OrderSQSMessageType>;
     if (message.Type === OrderSQSMessageType.OrderCreated) {
-      const { Order: orderPayload } = message.Payload as OrderCreatedPayload;
+      const { Order: orderPayload } =
+        message.Payload as OrderCreatedMessagePayload;
       const order = plainToInstance(OrderVM, orderPayload);
       const organization = await organizationRepository.fetch(
         order.OrganizationId

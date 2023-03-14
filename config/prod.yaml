@@ -5,7 +5,7 @@ Region: eu-central-1
 # SNS
 ORDER_SNSOrderTopic: "ORDER_OrderTopic"
 # S3
-S3OrderCreatedEmailTemplate: "order-created.ejs"
+S3OrderCreatedEmailTemplate: "halapp-order-created.ejs"
 # SES
 SESFromEmail: no-reply@halapp.io
 SESCCEmail: info@halapp.io
