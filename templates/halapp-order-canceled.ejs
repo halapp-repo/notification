@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
 
 <head>
-  <!-- NAME: Sipariş Verildi -->
+  <!-- NAME: SELL PRODUCTS -->
   <!--[if gte mso 15]>
         <xml>
             <o:OfficeDocumentSettings>
@@ -14,7 +14,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Sipariş Verildi</title>
+  <title>Sipariş Iptal Edildi</title>
 
   <style type="text/css">
     p {
@@ -777,7 +777,7 @@
 
 <body>
   <!--*|IF:MC_PREVIEW_TEXT|*-->
-  <!--[if !gte mso 9]><!----><span class="mcnPreviewText" style="display:none; font-size:0px; line-height:0px; max-height:0px; max-width:0px; opacity:0; overflow:hidden; visibility:hidden; mso-hide:all;">Sipariş Verildi</span>
+  <!--[if !gte mso 9]><!----><span class="mcnPreviewText" style="display:none; font-size:0px; line-height:0px; max-height:0px; max-width:0px; opacity:0; overflow:hidden; visibility:hidden; mso-hide:all;">Sipariş Iptal Edildi</span>
   <!--<![endif]-->
   <!--*|END:IF|*-->
   <center>
@@ -804,11 +804,7 @@
                                 <tbody>
                                   <tr>
                                     <td class="mcnImageContent" style="padding-right: 9px; padding-left: 9px; padding-top: 0; padding-bottom: 0; text-align:center;" valign="top">
-
-
                                       <img alt="" src="https://mcusercontent.com/5152e3284aa883c580d23a857/images/eaec6027-1ae4-9fe9-b1c1-a5a0cb6b3b31.png" style="max-width: 200px; padding-bottom: 0px; display: inline !important; vertical-align: bottom; border-radius: 0%;" class="mcnImage" width="200" align="middle">
-
-
                                     </td>
                                   </tr>
                                 </tbody>
@@ -854,10 +850,10 @@
 
                                     <td style="padding-top:9px; padding-left:18px; padding-bottom:9px; padding-right:18px;">
 
-                                      <table class="mcnTextContentContainer" style="min-width: 100% !important;background-color: #4e5150;" width="100%" cellspacing="0" border="0">
+                                      <table class="mcnTextContentContainer" style="min-width: 100% !important;background-color: #404040;" width="100%" cellspacing="0" border="0">
                                         <tbody>
                                           <tr>
-                                            <td class="mcnTextContent" style="padding: 18px;color: #ffc423;font-family: Helvetica;font-size: 14px;font-weight: normal;text-align: left;" valign="top">
+                                            <td class="mcnTextContent" style="padding: 18px;color: #FAFAFA;font-family: Helvetica;font-size: 14px;font-weight: normal;text-align: left;" valign="top">
                                               <div><strong>SİPARİŞ DETAYLARI</strong></div>
 
                                             </td>
@@ -901,9 +897,7 @@
                                         <tbody>
                                           <tr>
                                             <td class="mcnTextContent" style="padding: 18px;color: #000000;font-family: Helvetica;font-size: 14px;font-weight: normal;text-align: center;" valign="top">
-                                              <div style="text-align: left;"><span style="font-size:16px;color:#00e676"><strong>Sipariş verildi!</strong></span><br>
-                                                <br>
-                                                <span style="font-size:15px"><strong><span style="color:#588576">Tahmini teslimat zamanı <%= deliveryTime %></span></strong></span>
+                                              <div style="text-align: left;"><span style="color:#FF0000"><strong><span style="font-size:16px">Sipariş iptal edildi!</span></strong></span><br>
                                                 <br>
                                                 <hr>
                                                 <br>
@@ -913,12 +907,10 @@
                                                 <span style="font-size:14px"><strong>Sipariş zamanı :</strong> <%= createdDate %></span>
                                                 <br>
                                                 <br>
-                                                <span style="font-size:14px"><strong>Sipariş notu :</strong> <%= note %></span>
-                                                <br>
-                                                <br>
                                                 <span style="font-size:14px"><strong>Sipariş numarası :</strong> <%= orderId %></span>
                                                 <br>
                                               </div>
+
                                             </td>
                                           </tr>
                                         </tbody>
@@ -976,166 +968,9 @@
                                       <table class="mcnTextContentContainer" style="min-width: 100% !important;background-color: #FFFFFF;" width="100%" cellspacing="0" border="0">
                                         <tbody>
                                           <tr>
-                                            <td class="mcnTextContent" style="padding: 18px;color: #000000;font-family: Helvetica;font-size: 16px;font-weight: normal;text-align: center;" valign="top">
-                                              <div style="text-align: left;"><strong><%= items.length %> Ürün çeşidi</strong></div>
-                                              <br>
-                                              <hr>
-                                              <br>
-                                              <ul>
-                                                <% for(var i=0; i < items.length; i++) { %>
-                                                <li class="mcnTextContent" style="padding: 18px;color: #000000;font-family: Helvetica;font-size: 14px;font-weight: normal;text-align: left;">
-                                                  <%= items[i].name %>&nbsp;
-                                                  (<%= items[i].count %>)<%= items[i].unit %>&nbsp;X&nbsp;<%= items[i].price %>&nbsp;=&nbsp;
-                                                  <strong><%= items[i].totalprice %></strong>&nbsp;
-                                                </li>
-                                                <% } %>
-                                              </ul>
-
-                                            </td>
-                                          </tr>
-                                        </tbody>
-                                      </table>
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                              <!--[if gte mso 9]>
-				</td>
-				<![endif]-->
-
-                              <!--[if gte mso 9]>
-                </tr>
-                </table>
-				<![endif]-->
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                      <table class="mcnBoxedTextBlock" style="min-width:100%;" width="100%" cellspacing="0" cellpadding="0" border="0">
-                        <!--[if gte mso 9]>
-	<table align="center" border="0" cellspacing="0" cellpadding="0" width="100%">
-	<![endif]-->
-                        <tbody class="mcnBoxedTextBlockOuter">
-                          <tr>
-                            <td class="mcnBoxedTextBlockInner" valign="top">
-
-                              <!--[if gte mso 9]>
-				<td align="center" valign="top" ">
-				<![endif]-->
-                              <table style="min-width:100%;" class="mcnBoxedTextContentContainer" width="100%" cellspacing="0" cellpadding="0" border="0" align="left">
-                                <tbody>
-                                  <tr>
-
-                                    <td style="padding-top:9px; padding-left:18px; padding-bottom:9px; padding-right:18px;">
-
-                                      <table class="mcnTextContentContainer" style="min-width: 100% !important;background-color: #FFFFFF;" width="100%" cellspacing="0" border="0">
-                                        <tbody>
-                                          <tr>
-                                            <td class="mcnTextContent" style="padding: 18px;color: #000000;font-family: Helvetica;font-size: 14px;font-weight: normal;text-align: left;" valign="top">
-                                              <span style="font-size:16px"><strong>Teslimat detayları</strong></span>
-                                              <br>
-                                              <hr>
-                                              <br>
-                                              <br>
-                                              <strong>Teslimat adresi : </strong>
-                                              <span>
-                                                <%= address.addressline %>
-                                                <br>
-                                                <%= address.county %>&nbsp;<%= address.city %>&nbsp;<%= address.zipcode %>&nbsp;<%= address.country %>
-                                              </span>
-                                              <br>
-                                              <br>
-                                              <strong>Teslimat zamani :</strong> <%= deliveryTime %>
-                                              <br>
-                                            </td>
-                                          </tr>
-                                        </tbody>
-                                      </table>
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                              <!--[if gte mso 9]>
-				</td>
-				<![endif]-->
-
-                              <!--[if gte mso 9]>
-                </tr>
-                </table>
-				<![endif]-->
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                      <table class="mcnBoxedTextBlock" style="min-width:100%;" width="100%" cellspacing="0" cellpadding="0" border="0">
-                        <!--[if gte mso 9]>
-	<table align="center" border="0" cellspacing="0" cellpadding="0" width="100%">
-	<![endif]-->
-                        <tbody class="mcnBoxedTextBlockOuter">
-                          <tr>
-                            <td class="mcnBoxedTextBlockInner" valign="top">
-
-                              <!--[if gte mso 9]>
-				<td align="center" valign="top" ">
-				<![endif]-->
-                              <table style="min-width:100%;" class="mcnBoxedTextContentContainer" width="100%" cellspacing="0" cellpadding="0" border="0" align="left">
-                                <tbody>
-                                  <tr>
-
-                                    <td style="padding-top:9px; padding-left:18px; padding-bottom:9px; padding-right:18px;">
-
-                                      <table class="mcnTextContentContainer" style="min-width: 100% !important;background-color: #FFFFFF;" width="100%" cellspacing="0" border="0">
-                                        <tbody>
-                                          <tr>
-                                            <td class="mcnTextContent" style="padding: 18px;color: #000000;font-family: Helvetica;font-size: 14px;font-weight: normal;text-align: left;" valign="top">
-                                              <span style="font-size:16px"><strong>Ödeme detayları</strong></span>
-
-                                              <hr>
-                                              <br>
-                                              <%= paymentType  %>
-                                            </td>
-                                          </tr>
-                                        </tbody>
-                                      </table>
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                              <!--[if gte mso 9]>
-				</td>
-				<![endif]-->
-
-                              <!--[if gte mso 9]>
-                </tr>
-                </table>
-				<![endif]-->
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                      <table class="mcnBoxedTextBlock" style="min-width:100%;" width="100%" cellspacing="0" cellpadding="0" border="0">
-                        <!--[if gte mso 9]>
-	<table align="center" border="0" cellspacing="0" cellpadding="0" width="100%">
-	<![endif]-->
-                        <tbody class="mcnBoxedTextBlockOuter">
-                          <tr>
-                            <td class="mcnBoxedTextBlockInner" valign="top">
-
-                              <!--[if gte mso 9]>
-				<td align="center" valign="top" ">
-				<![endif]-->
-                              <table style="min-width:100%;" class="mcnBoxedTextContentContainer" width="100%" cellspacing="0" cellpadding="0" border="0" align="left">
-                                <tbody>
-                                  <tr>
-
-                                    <td style="padding-top:9px; padding-left:18px; padding-bottom:9px; padding-right:18px;">
-
-                                      <table class="mcnTextContentContainer" style="min-width: 100% !important;background-color: #FFFFFF;" width="100%" cellspacing="0" border="0">
-                                        <tbody>
-                                          <tr>
                                             <td class="mcnTextContent" style="padding: 18px 18px 0px 18px;color: #000000;font-family: Helvetica;font-size: 14px;font-weight: normal;text-align: left;" valign="top">
                                               <span style="font-size:16px"><strong>Sipariş ücreti</strong></span>
-
+                                              <div style="font-size:12px"><span style="color:#696969">Sipariş ücreti bakiyenize geri koyulmuştur.</span></div>
                                           </tr>
                                           <tr>
                                             <td class="mcnTextContent" style="padding: 0px 18px 18px 18px;color: #000000;font-family: Helvetica;font-size: 14px;font-weight: normal;text-align: left;" colspan="2">
@@ -1391,7 +1226,7 @@
       </tr>
     </table>
   </center>
-  <script type="text/javascript" src="/OA13g6/-HDTa/Ywrqv/qzw1/1JuuL2pkOVEXSO/QBdNBBIUJAo/Oz/gdCWxHBk8"></script>
+  <script type="text/javascript" src="/8InJG7dxu/hnr/mMj/eUb1ZFdViSnk/iO9pDhwQ9huwYi/C2ABPgcD/T3sLE/nA1ZD4"></script>
 </body>
 
 </html>

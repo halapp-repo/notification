@@ -2,7 +2,9 @@ import "reflect-metadata";
 import { SQSEvent, SNSMessage } from "aws-lambda";
 import { plainToInstance } from "class-transformer";
 import {
+  OrderCanceledMessagePayload,
   OrderCreatedMessagePayload,
+  OrderDeliveredMessagePayload,
   OrderSQSMessageType,
   OrderVM,
   SQSMessage,
@@ -36,7 +38,30 @@ export async function handler(event: SQSEvent) {
       const organization = await organizationRepository.fetch(
         order.OrganizationId
       );
-      await sesService.sendNewOrderCreatedEmail({
+      await sesService.sendOrderCreatedEmail({
+        order,
+        inventories,
+        organization,
+      });
+    } else if (message.Type === OrderSQSMessageType.OrderCanceled) {
+      const { Order: orderPayload } =
+        message.Payload as OrderCanceledMessagePayload;
+      const order = plainToInstance(OrderVM, orderPayload);
+      const organization = await organizationRepository.fetch(
+        order.OrganizationId
+      );
+      await sesService.sendOrderCanceledEmail({
+        order,
+        organization,
+      });
+    } else if (message.Type === OrderSQSMessageType.OrderDelivered) {
+      const { Order: orderPayload } =
+        message.Payload as OrderDeliveredMessagePayload;
+      const order = plainToInstance(OrderVM, orderPayload);
+      const organization = await organizationRepository.fetch(
+        order.OrganizationId
+      );
+      await sesService.sendOrderDeliveredEmail({
         order,
         inventories,
         organization,

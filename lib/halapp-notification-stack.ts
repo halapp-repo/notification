@@ -111,7 +111,10 @@ export class HalappNotificationStack extends cdk.Stack {
           NODE_OPTIONS: "--enable-source-maps",
           Region: buildConfig.Region,
           S3BucketName: importedEmailTemplateBucket.bucketName,
-          EmailTemplate: buildConfig.S3OrderCreatedEmailTemplate,
+          OrderCreatedEmailTemplate: buildConfig.S3OrderCreatedEmailTemplate,
+          OrderCanceledEmailTemplate: buildConfig.S3OrderCanceledEmailTemplate,
+          OrderDeliveredEmailTemplate:
+            buildConfig.S3OrderDeliveredEmailTemplate,
           SESFromEmail: buildConfig.SESFromEmail,
           SESCCEmail: buildConfig.SESCCEmail,
           LAMBDAAccountGetOrganizationHandler:

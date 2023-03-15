@@ -7,6 +7,8 @@ export interface BuildConfig {
   readonly ORDER_SNSOrderTopic: string;
   // S3
   readonly S3OrderCreatedEmailTemplate: string;
+  readonly S3OrderCanceledEmailTemplate: string;
+  readonly S3OrderDeliveredEmailTemplate: string;
   // SES
   readonly SESFromEmail: string;
   readonly SESCCEmail: string;
