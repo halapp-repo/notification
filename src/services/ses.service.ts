@@ -2,10 +2,9 @@ import { inject, injectable } from "tsyringe";
 import * as ejs from "ejs";
 import { SESStore } from "../repositories/ses-store";
 import { SendEmailCommand } from "@aws-sdk/client-ses";
-import { S3Store } from "../repositories/s3-store";
-import { GetObjectCommand } from "@aws-sdk/client-s3";
 import { OrderVM, InventoryVM, OrganizationVM } from "@halapp/common";
-import { trMoment } from "../utils/timezone";
+import { OrderToOrderEmailMessageMapper } from "../mappers/order-to-order-email-message.mapper";
+import { S3Service } from "./s3.service";
 
 @injectable()
 export class SESService {
@@ -20,8 +19,10 @@ export class SESService {
   constructor(
     @inject("SESStore")
     private sesStore: SESStore,
-    @inject("S3Store")
-    private s3Store: S3Store
+    @inject("S3Service")
+    private s3Service: S3Service,
+    @inject("OrderToOrderEmailMessageMapper")
+    private mapper: OrderToOrderEmailMessageMapper
   ) {
     const {
       SESFromEmail,
@@ -65,61 +66,18 @@ export class SESService {
     inventories: InventoryVM[];
     organization: OrganizationVM;
   }): Promise<void> {
-    const { Body } = await this.s3Store.s3Client.send(
-      new GetObjectCommand({
-        Bucket: this.s3BucketName,
-        Key: this.orderCreatedEmailTemplate,
+    const fileStr = await this.s3Service.getObject(
+      this.orderCreatedEmailTemplate
+    );
+
+    const body = await ejs.render(
+      fileStr,
+      this.mapper.toDTO({
+        ...order,
+        Inventories: inventories,
+        Organization: organization,
       })
     );
-    // Convert the ReadableStream to a string.
-    const fileStr: string | undefined = await Body?.transformToString();
-    if (!fileStr) {
-      throw new Error("fileStr is undefined");
-    }
-
-    const body = await ejs.render(fileStr, {
-      orderId: order.Id,
-      orderUrl: `https://halapp.io/orders/${order.Id}`,
-      createdDate: trMoment(order.CreatedDate).format("DD.MM.YYYY HH:mm"),
-      organizationName: organization.Name,
-      note: order.Note || "",
-      address: {
-        addressline: order.DeliveryAddress.AddressLine,
-        county: order.DeliveryAddress.County,
-        city: order.DeliveryAddress.City,
-        zipcode: order.DeliveryAddress.ZipCode,
-        country: order.DeliveryAddress.Country,
-      },
-      paymentType: order.PaymentMethodType,
-      deliveryTime: trMoment(order.DeliveryTime).format("DD.MM.YYYY HH:mm"),
-      totalPrice: new Intl.NumberFormat("tr-TR", {
-        style: "currency",
-        currency: "TRY",
-      }).format(
-        order.Items.reduce((acc, curr) => {
-          return acc + curr.Price * curr.Count;
-        }, 0)
-      ),
-      deliveryPrice: new Intl.NumberFormat("tr-TR", {
-        style: "currency",
-        currency: "TRY",
-      }).format(0),
-      items: order.Items.map((i) => ({
-        name:
-          inventories.find((inv) => inv.ProductId === i.ProductId)?.Name ||
-          i.ProductId,
-        count: i.Count,
-        unit: i.Unit,
-        price: new Intl.NumberFormat("tr-TR", {
-          style: "currency",
-          currency: "TRY",
-        }).format(i.Price),
-        totalprice: new Intl.NumberFormat("tr-TR", {
-          style: "currency",
-          currency: "TRY",
-        }).format(i.Price * i.Count),
-      })),
-    });
     const sesCommand = new SendEmailCommand({
       Destination: {
         CcAddresses: [this.ccAddress],
@@ -138,45 +96,29 @@ export class SESService {
       Source: this.fromAddress,
     });
     await this.sesStore.sesClient.send(sesCommand);
-    console.log("Message sent");
+    console.log("Order Created Message sent");
   }
   async sendOrderCanceledEmail({
     order,
+    inventories,
     organization,
   }: {
     order: OrderVM;
+    inventories: InventoryVM[];
     organization: OrganizationVM;
   }): Promise<void> {
-    const { Body } = await this.s3Store.s3Client.send(
-      new GetObjectCommand({
-        Bucket: this.s3BucketName,
-        Key: this.orderCanceledEmailTemplate,
+    const fileStr = await this.s3Service.getObject(
+      this.orderCanceledEmailTemplate
+    );
+
+    const body = await ejs.render(
+      fileStr,
+      this.mapper.toDTO({
+        ...order,
+        Inventories: inventories,
+        Organization: organization,
       })
     );
-    // Convert the ReadableStream to a string.
-    const fileStr: string | undefined = await Body?.transformToString();
-    if (!fileStr) {
-      throw new Error("fileStr is undefined");
-    }
-
-    const body = await ejs.render(fileStr, {
-      orderId: order.Id,
-      orderUrl: `https://halapp.io/orders/${order.Id}`,
-      createdDate: trMoment(order.CreatedDate).format("DD.MM.YYYY HH:mm"),
-      organizationName: organization.Name,
-      totalPrice: new Intl.NumberFormat("tr-TR", {
-        style: "currency",
-        currency: "TRY",
-      }).format(
-        order.Items.reduce((acc, curr) => {
-          return acc + curr.Price * curr.Count;
-        }, 0)
-      ),
-      deliveryPrice: new Intl.NumberFormat("tr-TR", {
-        style: "currency",
-        currency: "TRY",
-      }).format(0),
-    });
     const sesCommand = new SendEmailCommand({
       Destination: {
         CcAddresses: [this.ccAddress],
@@ -195,7 +137,7 @@ export class SESService {
       Source: this.fromAddress,
     });
     await this.sesStore.sesClient.send(sesCommand);
-    console.log("Message sent");
+    console.log("Order Canceled Message sent");
   }
   async sendOrderDeliveredEmail({
     order,
@@ -206,61 +148,18 @@ export class SESService {
     inventories: InventoryVM[];
     organization: OrganizationVM;
   }): Promise<void> {
-    const { Body } = await this.s3Store.s3Client.send(
-      new GetObjectCommand({
-        Bucket: this.s3BucketName,
-        Key: this.orderDeliveredEmailTemplate,
+    const fileStr = await this.s3Service.getObject(
+      this.orderDeliveredEmailTemplate
+    );
+
+    const body = await ejs.render(
+      fileStr,
+      this.mapper.toDTO({
+        ...order,
+        Inventories: inventories,
+        Organization: organization,
       })
     );
-    // Convert the ReadableStream to a string.
-    const fileStr: string | undefined = await Body?.transformToString();
-    if (!fileStr) {
-      throw new Error("fileStr is undefined");
-    }
-
-    const body = await ejs.render(fileStr, {
-      orderId: order.Id,
-      orderUrl: `https://halapp.io/orders/${order.Id}`,
-      createdDate: trMoment(order.CreatedDate).format("DD.MM.YYYY HH:mm"),
-      organizationName: organization.Name,
-      note: order.Note || "",
-      address: {
-        addressline: order.DeliveryAddress.AddressLine,
-        county: order.DeliveryAddress.County,
-        city: order.DeliveryAddress.City,
-        zipcode: order.DeliveryAddress.ZipCode,
-        country: order.DeliveryAddress.Country,
-      },
-      paymentType: order.PaymentMethodType,
-      deliveryTime: trMoment(order.DeliveryTime).format("DD.MM.YYYY HH:mm"),
-      totalPrice: new Intl.NumberFormat("tr-TR", {
-        style: "currency",
-        currency: "TRY",
-      }).format(
-        order.Items.reduce((acc, curr) => {
-          return acc + curr.Price * curr.Count;
-        }, 0)
-      ),
-      deliveryPrice: new Intl.NumberFormat("tr-TR", {
-        style: "currency",
-        currency: "TRY",
-      }).format(0),
-      items: order.Items.map((i) => ({
-        name:
-          inventories.find((inv) => inv.ProductId === i.ProductId)?.Name ||
-          i.ProductId,
-        count: i.Count,
-        unit: i.Unit,
-        price: new Intl.NumberFormat("tr-TR", {
-          style: "currency",
-          currency: "TRY",
-        }).format(i.Price),
-        totalprice: new Intl.NumberFormat("tr-TR", {
-          style: "currency",
-          currency: "TRY",
-        }).format(i.Price * i.Count),
-      })),
-    });
     const sesCommand = new SendEmailCommand({
       Destination: {
         CcAddresses: [this.ccAddress],
@@ -279,6 +178,6 @@ export class SESService {
       Source: this.fromAddress,
     });
     await this.sesStore.sesClient.send(sesCommand);
-    console.log("Message sent");
+    console.log("Order Delivered Message sent");
   }
 }

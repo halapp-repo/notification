@@ -52,6 +52,7 @@ export async function handler(event: SQSEvent) {
       );
       await sesService.sendOrderCanceledEmail({
         order,
+        inventories,
         organization,
       });
     } else if (message.Type === OrderSQSMessageType.OrderDelivered) {

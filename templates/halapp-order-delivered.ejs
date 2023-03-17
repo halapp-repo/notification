@@ -11,6 +11,7 @@
             </o:OfficeDocumentSettings>
         </xml>
         <![endif]-->
+  <meta http-equiv="Content-Type" content="text/html charset=UTF-8" />
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -858,7 +859,7 @@
                                         <tbody>
                                           <tr>
                                             <td class="mcnTextContent" style="padding: 18px;color: #ffc423;font-family: Helvetica;font-size: 14px;font-weight: normal;text-align: left;" valign="top">
-                                              <div><strong>SİPARİŞ DETAYLARI</strong></div>
+                                              <div><b>SİPARİŞ DETAYLARI</b></div>
 
                                             </td>
                                           </tr>
@@ -901,22 +902,22 @@
                                         <tbody>
                                           <tr>
                                             <td class="mcnTextContent" style="padding: 18px;color: #000000;font-family: Helvetica;font-size: 14px;font-weight: normal;text-align: center;" valign="top">
-                                              <div style="text-align: left;"><span style="font-size:16px;color: #2979ff;"><strong>Sipariş teslim edildi!</strong></span><br>
+                                              <div style="text-align: left;"><span style="font-size:16px;color: #2979ff;"><b>Sipariş teslim edildi!</b></span><br>
                                                 <br>
-                                                <span style="font-size:15px"><strong><span style="color:#588576">Tahmini teslimat zamanı <%= deliveryTime %></span></strong></span>
+                                                <span style="font-size:15px"><b><span style="color:#588576">Tahmini teslimat zamanı <%= deliveryTime %></span></b></span>
                                                 <br>
                                                 <hr>
                                                 <br>
-                                                <span style="font-size:14px;"><strong>Şirket adı :</strong> <span style="color:#FFC423"><strong><%= organizationName %></strong></span></span>
+                                                <span style="font-size:14px;"><b>Şirket adı :</b> <span style="color:#FFC423"><b><%= organizationName %></b></span></span>
                                                 <br>
                                                 <br>
-                                                <span style="font-size:14px"><strong>Sipariş zamanı :</strong> <%= createdDate %></span>
+                                                <span style="font-size:14px"><b>Sipariş zamanı :</b> <%= createdDate %></span>
                                                 <br>
                                                 <br>
-                                                <span style="font-size:14px"><strong>Sipariş notu :</strong> <%= note %></span>
+                                                <span style="font-size:14px"><b>Sipariş notu :</b> <%= note %></span>
                                                 <br>
                                                 <br>
-                                                <span style="font-size:14px"><strong>Sipariş numarası :</strong> <%= orderId %></span>
+                                                <span style="font-size:14px"><b>Sipariş numarası :</b> <%= orderId %></span>
                                                 <br>
                                               </div>
                                             </td>
@@ -977,19 +978,20 @@
                                         <tbody>
                                           <tr>
                                             <td class="mcnTextContent" style="padding: 18px;color: #000000;font-family: Helvetica;font-size: 16px;font-weight: normal;text-align: center;" valign="top">
-                                              <div style="text-align: left;"><strong><%= items.length %> Ürün çeşidi</strong></div>
+                                              <div style="text-align: left;"><b><%= items.length %> Ürün çeşidi</b></div>
                                               <br>
                                               <hr>
                                               <br>
-                                              <ul>
-                                                <% for(var i=0; i < items.length; i++) { %>
-                                                <li class="mcnTextContent" style="padding: 18px;color: #000000;font-family: Helvetica;font-size: 14px;font-weight: normal;text-align: left;">
-                                                  <%= items[i].name %>&nbsp;
-                                                  (<%= items[i].count %>)<%= items[i].unit %>&nbsp;X&nbsp;<%= items[i].price %>&nbsp;=&nbsp;
-                                                  <strong><%= items[i].totalprice %></strong>&nbsp;
-                                                </li>
-                                                <% } %>
-                                              </ul>
+
+                                              <% for(var i=0; i < items.length; i++) { %>
+                                              <span class="mcnTextContent" style="padding: 18px;color: #000000;font-family: Helvetica;font-size: 14px;font-weight: normal;text-align: left;">
+                                                &bull;<%= items[i].name %>&nbsp;
+                                                (<%= items[i].count %>)<%= items[i].unit %>&nbsp;X&nbsp;<%= items[i].price %>&nbsp;=&nbsp;
+                                                <b><%= items[i].totalprice %></b>&nbsp;
+                                              </span>
+                                              <br />
+                                              <% } %>
+
 
                                             </td>
                                           </tr>
@@ -1032,12 +1034,12 @@
                                         <tbody>
                                           <tr>
                                             <td class="mcnTextContent" style="padding: 18px;color: #000000;font-family: Helvetica;font-size: 14px;font-weight: normal;text-align: left;" valign="top">
-                                              <span style="font-size:16px"><strong>Teslimat detayları</strong></span>
+                                              <span style="font-size:16px"><b>Teslimat detayları</b></span>
                                               <br>
                                               <hr>
                                               <br>
                                               <br>
-                                              <strong>Teslimat adresi : </strong>
+                                              <b>Teslimat Adresi : </b>
                                               <span>
                                                 <%= address.addressline %>
                                                 <br>
@@ -1045,7 +1047,7 @@
                                               </span>
                                               <br>
                                               <br>
-                                              <strong>Teslimat zamani :</strong> <%= deliveryTime %>
+                                              <b>Teslimat Zamani :</b> <%= deliveryTime %>
                                               <br>
                                             </td>
                                           </tr>
@@ -1088,7 +1090,7 @@
                                         <tbody>
                                           <tr>
                                             <td class="mcnTextContent" style="padding: 18px 18px 0px 18px;color: #000000;font-family: Helvetica;font-size: 14px;font-weight: normal;text-align: left;" valign="top">
-                                              <span style="font-size:16px"><strong>Sipariş ücreti</strong></span>
+                                              <span style="font-size:16px"><b>Sipariş ücreti</b></span>
 
                                           </tr>
                                           <tr>
@@ -1098,18 +1100,26 @@
                                           </tr>
                                           <tr>
                                             <td class="mcnTextContent" style="padding: 18px;color: #000000;font-family: Helvetica;font-size: 14px;font-weight: normal;text-align: left;">
-                                              <strong>Teslimat Ücreti</strong>
+                                              <b>Teslimat Ücreti</b>
                                             </td>
                                             <td class="mcnTextContent" style="padding: 18px;color: #000000;font-family: Helvetica;font-size: 14px;font-weight: normal;text-align: left;">
-                                              <%= deliveryPrice %>
+                                              <%= deliveryCharge %>
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <td class="mcnTextContent" style="padding: 18px;color: #000000;font-family: Helvetica;font-size: 14px;font-weight: normal;text-align: left;">
+                                              <b>İşlem Ücreti</b>
+                                            </td>
+                                            <td class="mcnTextContent" style="padding: 18px;color: #000000;font-family: Helvetica;font-size: 14px;font-weight: normal;text-align: left;">
+                                              <%= creditCharge %>
                                             </td>
                                           </tr>
                                           <tr>
                                             <td class="mcnTextContent" style="padding: 18px;color: #000000;font-family: Helvetica;font-size: 18px;font-weight: normal;text-align: left;">
-                                              <strong>Toplam Ücret</strong>
+                                              <b>Toplam Ücret</b>
                                             </td>
                                             <td class="mcnTextContent" style="padding: 18px;color: #ffc423;font-family: Helvetica;font-size: 18px;font-weight: normal;text-align: left;">
-                                              <strong><%= totalPrice %></strong>
+                                              <b><%= totalPrice %></b>
                                             </td>
                                           </tr>
                                         </tbody>
