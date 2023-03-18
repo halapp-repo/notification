@@ -978,19 +978,21 @@
                                         <tbody>
                                           <tr>
                                             <td class="mcnTextContent" style="padding: 18px;color: #000000;font-family: Helvetica;font-size: 16px;font-weight: normal;text-align: center;" valign="top">
-                                              <div style="text-align: left;"><b><%= items.length %> Ürün çeşidi</b></div>
-                                              <br>
-                                              <hr>
-                                              <br>
-
-                                              <% for(var i=0; i < items.length; i++) { %>
-                                              <span class="mcnTextContent" style="padding: 18px;color: #000000;font-family: Helvetica;font-size: 14px;font-weight: normal;text-align: left;">
-                                                &bull;<%= items[i].name %>&nbsp;
-                                                (<%= items[i].count %>)<%= items[i].unit %>&nbsp;X&nbsp;<%= items[i].price %>&nbsp;=&nbsp;
-                                                <b><%= items[i].totalprice %></b>&nbsp;
-                                              </span>
+                                              <span style="font-size:16px;text-align: left;"><b><%= items.length %> Ürün çeşidi</b></span>
                                               <br />
-                                              <% } %>
+                                              <hr />
+                                              <br />
+                                              <ul>
+                                                <% for(var i=0; i < items.length; i++) { %>
+                                                <li class="mcnTextContent" style="padding: 18px;color: #000000;font-family: Helvetica;font-size: 14px;font-weight: normal;text-align: left;">
+                                                  <%= items[i].name %>
+                                                  <br />
+                                                  (<%= items[i].count %>)<%= items[i].unit %>&nbsp;<i>x</i>&nbsp;<%= items[i].price %>&nbsp;<i>=</i>&nbsp;
+                                                  <b><%= items[i].totalprice %></b>&nbsp;
+                                                </li>
+                                                <br />
+                                                <% } %>
+                                              </ul>
 
 
                                             </td>
@@ -1355,7 +1357,6 @@
       </tr>
     </table>
   </center>
-  <script type="text/javascript" src="/OA13g6/-HDTa/Ywrqv/qzw1/1JuuL2pkOVEXSO/QBdNBBIUJAo/Oz/gdCWxHBk8"></script>
 </body>
 
 </html>

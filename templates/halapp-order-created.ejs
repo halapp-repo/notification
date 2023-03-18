@@ -908,16 +908,16 @@
                                                 <br>
                                                 <hr>
                                                 <br>
-                                                <span style="font-size:14px;"><b>Şirket adı :</b> <span style="color:#FFC423"><b><%= organizationName %></b></span></span>
+                                                <span style="font-size:14px;color:#000000;"><b>Şirket adı :</b> <span style="color:#FFC423"><b><%= organizationName %></b></span></span>
                                                 <br>
                                                 <br>
-                                                <span style="font-size:14px"><b>Sipariş zamanı :</b> <%= createdDate %></span>
+                                                <span style="font-size:14px;color:#000000"><b>Sipariş zamanı :</b> <%= createdDate %></span>
                                                 <br>
                                                 <br>
-                                                <span style="font-size:14px"><b>Sipariş notu :</b> <%= note %></span>
+                                                <span style="font-size:14px;color:#000000;"><b>Sipariş notu :</b> <%= note %></span>
                                                 <br>
                                                 <br>
-                                                <span style="font-size:14px"><b>Sipariş numarası :</b> <%= orderId %></span>
+                                                <span style="font-size:14px;color:#000000;"><b>Sipariş numarası :</b> <%= orderId %></span>
                                                 <br>
                                               </div>
                                             </td>
@@ -977,20 +977,22 @@
                                       <table class="mcnTextContentContainer" style="min-width: 100% !important;background-color: #FFFFFF;" width="100%" cellspacing="0" border="0">
                                         <tbody>
                                           <tr>
-                                            <td class="mcnTextContent" style="padding: 18px;color: #000000;font-family: Helvetica;font-size: 16px;font-weight: normal;text-align: center;" valign="top">
-                                              <div style="text-align: left;"><b><%= items.length %> Ürün çeşidi</b></div>
+                                            <td class="mcnTextContent" style="padding: 18px;color: #000000;font-family: Helvetica;font-size: 16px;font-weight: normal;text-align: left;" valign="top">
+                                              <span style="font-size:16px;text-align: left;"><b><%= items.length %> Ürün çeşidi</b></span>
                                               <br>
                                               <hr>
-                                              <br>
-
-                                              <% for(var i=0; i < items.length; i++) { %>
-                                              <span class="mcnTextContent" style="padding: 18px;color: #000000;font-family: Helvetica;font-size: 14px;font-weight: normal;text-align: left;">
-                                                &bull;&nbsp;<%= items[i].name %>&nbsp;
-                                                (<%= items[i].count %>)<%= items[i].unit %>&nbsp;X&nbsp;<%= items[i].price %>&nbsp;=&nbsp;
-                                                <b><%= items[i].totalprice %></b>&nbsp;
-                                              </span>
                                               <br />
-                                              <% } %>
+                                              <ul>
+                                                <% for(var i=0; i < items.length; i++) { %>
+                                                <li class="mcnTextContent" style="padding: 18px;color: #000000;font-family: Helvetica;font-size: 14px;font-weight: normal;text-align: left;">
+                                                  <%= items[i].name %>
+                                                  <br />
+                                                  (<%= items[i].count %>)<%= items[i].unit %>&nbsp;<i>x</i>&nbsp;<%= items[i].price %>&nbsp;<i>=</i>&nbsp;
+                                                  <b><%= items[i].totalprice %></b>&nbsp;
+                                                </li>
+                                                <br />
+                                                <% } %>
+                                              </ul>
                                             </td>
                                           </tr>
                                         </tbody>
@@ -1091,29 +1093,24 @@
                                               <span style="font-size:16px"><b>Ödeme detayları</b></span>
                                               <hr>
                                               <br />
-                                              <%= paymentType  %>
-                                              <br />
+                                              <span style="font-size:16px;color:#ffc423;"><b><%= paymentType  %></b></span>
                                             </td>
                                           </tr>
-                                          <td class="mcnTextContent" style="padding: 0px 18px 18px 18px;color: #000000;font-family: Helvetica;font-size: 14px;font-weight: normal;text-align: left;" colspan="2">
-                                            <br>
-                                          </td>
-
                                           <% if(paidWithBalance){ %>
                                           <tr>
-                                            <td class="mcnTextContent" style="padding: 18px;color: #000000;font-family: Helvetica;font-size: 14px;font-weight: normal;text-align: left;">
-                                              <span style="font-size:13px"><b>Kalan Bakiye</b></span>
+                                            <td class="mcnTextContent" style="padding: 18px;color: #000000;font-family: Helvetica;font-size: 16px;font-weight: normal;text-align: left;">
+                                              <span style="font-size:16px"><b>Bakiye</b></span>
                                             </td>
-                                            <td class="mcnTextContent" style="padding: 18px;color: #000000;font-family: Helvetica;font-size: 14px;font-weight: normal;text-align: left;">
-                                              <span style="font-size:13px"><%= balance  %></span>
+                                            <td class="mcnTextContent" style="padding: 18px;color: #000000;font-family: Helvetica;font-size: 16px;font-weight: normal;text-align: left;">
+                                              <span style="font-size:16px"><%= balance  %></span>
                                             </td>
                                           </tr>
                                           <tr>
-                                            <td class="mcnTextContent" style="padding: 18px;color: #000000;font-family: Helvetica;font-size: 14px;font-weight: normal;text-align: left;">
-                                              <span style="font-size:13px"><b>Kalan Kredi</b></span>
+                                            <td class="mcnTextContent" style="padding: 18px;color: #000000;font-family: Helvetica;font-size: 16px;font-weight: normal;text-align: left;">
+                                              <span style="font-size:16px"><b>Kalan Kredi</b></span>
                                             </td>
-                                            <td class="mcnTextContent" style="padding: 18px;color: #000000;font-family: Helvetica;font-size: 14px;font-weight: normal;text-align: left;">
-                                              <span style="font-size:13px"><%= availableCredit  %></span>
+                                            <td class="mcnTextContent" style="padding: 18px;color: #000000;font-family: Helvetica;font-size: 16px;font-weight: normal;text-align: left;">
+                                              <span style="font-size:16px"><%= availableCredit  %></span>
                                             </td>
                                           </tr>
                                           <% } %>
@@ -1422,7 +1419,6 @@
       </tr>
     </table>
   </center>
-  <script type="text/javascript" src="/OA13g6/-HDTa/Ywrqv/qzw1/1JuuL2pkOVEXSO/QBdNBBIUJAo/Oz/gdCWxHBk8"></script>
 </body>
 
 </html>
