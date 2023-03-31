@@ -6,6 +6,8 @@ Region: eu-central-1
 ORDER_SNSOrderTopic: "ORDER_OrderTopic"
 # S3
 S3OrderCreatedEmailTemplate: "halapp-order-created.ejs"
+S3OrderCanceledEmailTemplate: "halapp-order-canceled.ejs"
+S3OrderDeliveredEmailTemplate: "halapp-order-delivered.ejs"
 # SES
 SESFromEmail: no-reply@halapp.io
 SESCCEmail: furkan.ozdeslik@gmail.com

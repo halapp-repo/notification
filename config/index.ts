@@ -34,6 +34,14 @@ function getConfig(app: cdk.App): BuildConfig {
       unparsedEnv,
       "S3OrderCreatedEmailTemplate"
     ),
+    S3OrderCanceledEmailTemplate: ensureString(
+      unparsedEnv,
+      "S3OrderCanceledEmailTemplate"
+    ),
+    S3OrderDeliveredEmailTemplate: ensureString(
+      unparsedEnv,
+      "S3OrderDeliveredEmailTemplate"
+    ),
     SESFromEmail: ensureString(unparsedEnv, "SESFromEmail"),
     SESCCEmail: ensureString(unparsedEnv, "SESCCEmail"),
     LAMBDAAccountGetOrganizationHandler: ensureString(
